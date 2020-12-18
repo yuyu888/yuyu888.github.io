@@ -8,6 +8,10 @@ wkhtmltopdf 官网：https://wkhtmltopdf.org/
 brew install wkhtmltopdf
 wkhtmltopdf http://www.example.com test.pdf
 ````
+安装完毕后 wkhtmltoimage 也可以使用
+````
+wkhtmltoimage "http://www.daileinote.com/computer/nginx/01" nginx.jpg
+````
 
 #### go代码
 依赖：github.com/SebastiaanKlippert/go-wkhtmltopdf 
