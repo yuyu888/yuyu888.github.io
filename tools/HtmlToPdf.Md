@@ -1,0 +1,53 @@
+### Html转pdf工具
+需要安装 wkhtmltopdf
+
+wkhtmltopdf 官网：https://wkhtmltopdf.org/
+
+#### Mac下
+````
+brew install wkhtmltopdf
+wkhtmltopdf http://www.example.com test.pdf
+````
+
+#### go代码
+依赖：github.com/SebastiaanKlippert/go-wkhtmltopdf 
+
+
+###### main.go 
+````go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/SebastiaanKlippert/go-wkhtmltopdf"
+)
+
+func main() {
+	// Create new PDF generator
+	pdfg, err := wkhtmltopdf.NewPDFGenerator()
+	if err != nil {
+		log.Fatal(err)
+	}
+	url := "http://www.daileinote.com/computer/nginx/01"
+
+	pdfg.AddPage(wkhtmltopdf.NewPage(url))
+
+	err = pdfg.Create()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = pdfg.WriteFile("./nginx01.pdf")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("tada!")
+}
+````
+
+````
+go run main.go
+````
