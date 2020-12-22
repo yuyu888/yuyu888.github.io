@@ -119,3 +119,15 @@ test.lua
 ````
 ngx.say("Hello, Lua!")
 ````
+
+### 学习资料
+
+[https://moonbingbing.gitbooks.io/openresty-best-practices/content/](https://moonbingbing.gitbooks.io/openresty-best-practices/content/)
+
+[lua ngxAPI](https://openresty-reference.readthedocs.io/en/latest/Lua_Nginx_API/#ngxreqget_method)
+
+[http://www.daileinote.com/computer/openresty/](http://www.daileinote.com/computer/openresty/)
+
+[lor 框架](http://lor.sumory.com/docs/getting-started-cn)
+
+[nana 框架](https://github.com/horan-geeker/nana)
