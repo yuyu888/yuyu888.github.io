@@ -17,7 +17,7 @@ sendMessage(){
 }
 export -f sendMessage
 num=`cat cursor.log`
-currentNum=`wc -l star.access.log|awk '{print $1}'`
+currentNum=`wc -l access.log|awk '{print $1}'`
 echo $currentNum>cursor.log
 if [ $currentNum -lt $num ];then
 echo $currentNum;
