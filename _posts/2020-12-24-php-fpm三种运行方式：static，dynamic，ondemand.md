@@ -45,11 +45,12 @@ php-fpm的进程数可以根据设置分为动态和静态
 
 服务启动时就会fork 100个php-fpm进程，当请求不断进来，超过80正在处理时，服务器会不断fork出新的进程，保证有至少20个闲置进程，随时应对新的请求；假如服务来了一个波小高峰，同时处理请求数达到200，然后持续回落稳定在80，那么实际存活的php-fpm进程数应该在140，有60个闲置进程；
 
-这种方式，可以根据实际请求动态的fork一定数量的php-fpm进程，一定程度上会节约内存使用，但是运行一段时间，尤其是经过一个高峰时，依然会保留pm.max_spare_servers个闲置进程；另外不断的fork新进程和回收进程，一定程度上也会消耗系统资源
+这种方式，可以根据实际请求动态的fork一定数量的php-fpm进程，一定程度上会节约内存使用，但是运行一段时间，尤其是经历过一个高峰时，依然会保留pm.max_spare_servers个闲置进程；另外不断的fork新进程和回收进程，一定程度上也会消耗系统资源；fork新的进程也需要一定时间，遇到瞬时高峰对服务的平顺性也有一定影响
 
 ### pm=ondemand
 服务启动后，按需新增进程，最大不超过 pm.max_children 设置值；每个闲置进程，在持续闲置了pm.process_idle_timeout秒后就会被杀掉，有了这个模式，到了服务器低峰期内存自然会降下来，如果服务器长时间没有请求，就只会有一个php-fpm主进程，当然弊端是，遇到高峰期或者如果pm.process_idle_timeout的值太短的话，无法避免服务器频繁创建进程的问题，因此pm = dynamic和pm = ondemand谁更适合视实际情况而定。
 
 
 ### 参考阅读
-[https://www.jianshu.com/p/c9a028c834ff?hmsr=toutiao.io](https://www.jianshu.com/p/c9a028c834ff?hmsr=toutiao.io)
+
+[https://www.jianshu.com/p/c9a028c834ff?hmsr=toutiao.io](https://www.jianshu.com/p/c9a028c834ff?hmsr=toutiao.io){:target="_blank"}
