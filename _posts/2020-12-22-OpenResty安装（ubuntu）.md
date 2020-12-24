@@ -122,12 +122,12 @@ ngx.say("Hello, Lua!")
 
 ### 学习资料
 
-[https://moonbingbing.gitbooks.io/openresty-best-practices/content/](https://moonbingbing.gitbooks.io/openresty-best-practices/content/)
+[https://moonbingbing.gitbooks.io/openresty-best-practices/content/](https://moonbingbing.gitbooks.io/openresty-best-practices/content/){:target="_blank"}
 
-[lua ngxAPI](https://openresty-reference.readthedocs.io/en/latest/Lua_Nginx_API/#ngxreqget_method)
+[lua ngxAPI](https://openresty-reference.readthedocs.io/en/latest/Lua_Nginx_API/#ngxreqget_method){:target="_blank"}
 
-[http://www.daileinote.com/computer/openresty/](http://www.daileinote.com/computer/openresty/)
+[http://www.daileinote.com/computer/openresty/](http://www.daileinote.com/computer/openresty/){:target="_blank"}
 
-[lor 框架](http://lor.sumory.com/docs/getting-started-cn)
+[lor 框架](http://lor.sumory.com/docs/getting-started-cn){:target="_blank"}
 
-[nana 框架](https://github.com/horan-geeker/nana)
+[nana 框架](https://github.com/horan-geeker/nana){:target="_blank"}
