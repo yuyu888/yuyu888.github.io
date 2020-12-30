@@ -4,7 +4,7 @@ title: OpenResty 安装（ubuntu）
 categories: [OpenResty]
 ---
 
-### 安装
+## 安装
 openresty官网  http://openresty.org/cn/linux-packages.html
 
 本例主要讲述ubuntu平台下的安装
@@ -34,7 +34,7 @@ apt-get -y install openresty
 
 ````
 
-### 配置
+## 配置
 
 nginx 执行文件地址： /usr/local/openresty/nginx/sbin/
 
@@ -58,7 +58,7 @@ nginx 命令：
 - nginx -s reload
 
 
-### 测试
+## 测试
 
 ````
 vim /usr/local/openresty/nginx/conf/nginx.conf
@@ -85,7 +85,7 @@ curl http://127.0.0.1/lua
 >> Hello, Lua!
 ````
 
-### 以lua文件的方式运行
+## 以lua文件的方式运行
 
 ````
 vim /usr/local/openresty/nginx/conf/nginx.conf
@@ -120,7 +120,11 @@ test.lua
 ngx.say("Hello, Lua!")
 ````
 
-### 学习资料
+<br/>
+
+----
+
+[_学习资料_]
 
 [https://moonbingbing.gitbooks.io/openresty-best-practices/content/](https://moonbingbing.gitbooks.io/openresty-best-practices/content/){:target="_blank"}
 

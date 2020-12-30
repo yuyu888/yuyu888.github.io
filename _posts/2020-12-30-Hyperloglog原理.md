@@ -173,5 +173,11 @@ redis 实际是把所有输入数据hash成为64位的bit串；然后前14位最
 
 Redis HyperLogLog 存储结构分为密集存储结构和稀疏存储结构两种，默认为稀疏存储结构，而我们常说的占用12K内存的则是密集存储结构。详细请参阅：[深度探索 Redis HyperLogLog 内部数据结构](https://zhuanlan.zhihu.com/p/43426875){:target="_blank"}
 
-## 参考文档
+
+<br/>
+
+----
+
+[_参考文档_]
+
 [https://juejin.cn/post/6844903785744056333](https://juejin.cn/post/6844903785744056333){:target="_blank"}

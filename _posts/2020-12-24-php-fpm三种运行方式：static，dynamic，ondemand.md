@@ -10,7 +10,7 @@ php-fpm的进程数可以根据设置分为动态和静态
 
 下面我们将分别阐述php-fpm的进程数管理的三种不同模式
 
-### pm=static
+## pm=static
 如果pm设置为static，那么只有**pm.max_children**这个参数生效, 系统会创建设置的数量个php-fpm进程;
 
 如果设置 pm.max_children=500 那么系统会创建500个php-fpm进程来监听nginx过来的请求，假如我当前的请求数是100，那么会有400个闲置，突然流量又增加了300， 那么服务器依然有足够多的php-fpm进程来处理请求，不用创建新的进程，请求来了也能迅速处理；
@@ -20,7 +20,7 @@ php-fpm的进程数可以根据设置分为动态和静态
 如果你的内存足够，建议使用这个配置， 虽然会有一些闲置进程，但是有内存不用也是浪费；pm.max_requests这个配置，如果对自己的程序比较有信心可以适当调大
 
 
-### pm=dynamic
+## pm=dynamic
 该配置一般为默认配置，运行时fork出pm.start_servers个进程，随着负载的情况，动态的调整，最多不超过pm.max_children个进程。同时，保证闲置进程数不少于pm.min_spare_servers数量，否则新的进程会被创建，当然也不是无限制的创建，最多闲置进程不超过pm.max_spare_servers数量，超过则一些启动时间最长闲置进程会被清理。
 
 主要参数说明：
@@ -47,10 +47,14 @@ php-fpm的进程数可以根据设置分为动态和静态
 
 这种方式，可以根据实际请求动态的fork一定数量的php-fpm进程，一定程度上会节约内存使用，但是运行一段时间，尤其是经历过一个高峰时，依然会保留pm.max_spare_servers个闲置进程；另外不断的fork新进程和回收进程，一定程度上也会消耗系统资源；fork新的进程也需要一定时间，遇到瞬时高峰对服务的平顺性也有一定影响
 
-### pm=ondemand
+## pm=ondemand
 服务启动后，按需新增进程，最大不超过 pm.max_children 设置值；每个闲置进程，在持续闲置了pm.process_idle_timeout秒后就会被杀掉，有了这个模式，到了服务器低峰期内存自然会降下来，如果服务器长时间没有请求，就只会有一个php-fpm主进程，当然弊端是，遇到高峰期或者如果pm.process_idle_timeout的值太短的话，无法避免服务器频繁创建进程的问题，因此pm = dynamic和pm = ondemand谁更适合视实际情况而定。
 
 
-### 参考阅读
+<br/>
+
+----
+
+[_参考文档_]
 
 [https://www.jianshu.com/p/c9a028c834ff?hmsr=toutiao.io](https://www.jianshu.com/p/c9a028c834ff?hmsr=toutiao.io){:target="_blank"}
