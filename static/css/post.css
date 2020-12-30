@@ -22,12 +22,11 @@
 .page-post .post h1,
 .page-post .post h2 {
   font-weight: normal;
-  font-size: 17px;
+  font-size: 18px;
   position: relative;
 }
 .page-post .post h1::before,
 .page-post .post h2::before {
-  content: '#';
   top: 0;
   font-weight: bold;
   padding-right: 6px;
