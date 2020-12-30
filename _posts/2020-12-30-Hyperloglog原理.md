@@ -97,7 +97,8 @@ HyperLogLog实际上不会存储每个元素的值，它使用的是概率算法
 最终 HyperLogLog 的估算公式如图
 ![HyperLogLog公式](HyperLogLog_gs.png)
 
-其中m是桶的数量，const是修正常数，它的取值会根据m而变化 ![const公式](plog2m_gs.png)
+其中m是桶的数量， const 是修正常数，它的取值会根据m而变化, p是m的以2为底的对数
+ ![const公式](plog2m_gs.png)
 
 ````
 switch (p) {
@@ -161,8 +162,8 @@ switch (p) {
     | 0000 .... ....  0000 | 0100 | 0101 | 0000 .... ....  0000 |
 
 - **计算**
+
     根据存储结果，套用公式反算，得出预估值
-    ![HyperLogLog公式](HyperLogLog_gs.png)
 
 ### redis 怎么做的？
 
