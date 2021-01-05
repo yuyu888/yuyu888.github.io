@@ -20,7 +20,7 @@ title: 文章分类
       <li>
         <span class="date">{{ post.date | date: "%Y/%m/%d" }}</span>
         <div class="title">
-          <a href="{{ site.baseurl | append: post.url }}" class="hover-underline">{{ post.title }}</a>
+          <a href="{{ site.baseurl | append: post.url }}" target="_blank" class="hover-underline">{{ post.title }}</a>
         </div>
       </li>
       {%- endfor %}
