@@ -1,7 +1,7 @@
 ---
 layout: mypost
 title: go 使用tcp模拟httpclient
-categories: [算法思想]
+categories: [Golang]
 ---
 
 可以根据[rfc1867](https://tools.ietf.org/html/rfc1867){:target="_blank"}协议，轻松改造一个满足各种情况的httpclient  
