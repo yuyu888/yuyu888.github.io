@@ -25,8 +25,8 @@ vim HelloController.java
 ````
 HelloController.java
 
-````JAVA
-package com.myproject.demo.Controller;
+````java
+package com.myproject.demo.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
