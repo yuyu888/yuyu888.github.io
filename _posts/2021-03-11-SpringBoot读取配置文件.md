@@ -109,7 +109,7 @@ server.port=8082
 则成功输出： 
 > envNumber:2
 
-2、把application.properties 重命名为application.properties2 或者application2.properties  或者直接删除
+2、把application.properties 重命名为application.properties2 或者application2.properties  或者直接删除  
 则成功输出： 
 > envNumber:2
 
