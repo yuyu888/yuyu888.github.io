@@ -7,16 +7,19 @@ categories: [PHP]
 ## nginx 安装
 
 安装命令  
+````
   brew install nginx、
-
+````
 安装成功后的默认路径  
+````
   项目目录：/usr/local/var/www
   nginx配置目录：/usr/local/etc/nginx
-
+````
 默认只有nginx.conf.default， 需要手动copy一下
   sudo cp /usr/local/etc/nginx/nginx.conf.default  /usr/local/etc/nginx/nginx.conf
 
 执行 tail nginx.conf 发现  
+````
 
     #    location / {
     #        root   html;
@@ -25,41 +28,45 @@ categories: [PHP]
     #}
     include servers/*;
 }
-
+````
 最后有一行： include servers/*;
 
-执行：  
+执行： 
+```` 
   mkdir servers
-
+````
 这样我们就可以站点的配置文件放到 servers 目录下
 
 服务启动  
-
+````
   brew services start nginx
-
+````
 nginx 执行的命令
+````
   sudo nginx    #启动nginx服务
   sudo nginx -s reload    #重新载入配置文件
   sudo nginx -s stop    #停止nginx服务
-
+````
 当我们启动nginx时访问 http://localhost:8080/ 时就能看到欢迎界面
 
 ## php安装
 
 Mac上默认安装了php和php-fpm 但对应的配置文件只有默认的。  
-
+````
   /private/etc/php-fpm.conf.default
   /private/etc/php.ini.default
   /etc/php-fpm.d/www.conf.default
-
+````
 需要：  
+````
   sudo cp /private/etc/php-fpm.conf.default /private/etc/php-fpm.conf
   sudo cp /private/etc/php.ini.default /private/etc/php.ini
   sudo cp /etc/php-fpm.d/www.conf.default   /etc/php-fpm.d/www.conf
-
-配置 php-fpm.conf   
+````
+配置 php-fpm.conf  
+```` 
   error_log = /usr/local/var/log/php-fpm.log
-
+````
 ##  配置nginx
 
 在 servers 目录下新建 www.conf 文件
@@ -118,11 +125,14 @@ server {
 ?>
 、、、、
 
-重启nginx   
+重启nginx 
+````  
   sudo nginx -s reload
-
+````
 启动php-fpm  
+````
   sudo php-fpm
+````
 
 访问：http://localhost:8182/info.php 
 
@@ -155,7 +165,7 @@ mac 自带的php版本比较新，是7+； 与我的项目不兼容， 故需要
 
 ### 安装
 
-> curl -s http://php-osx.liip.ch/install.sh | bash -s 5.6
+>curl -s http://php-osx.liip.ch/install.sh | bash -s 5.6
 
 安装成功后的地址为：   
   /usr/local/php5
@@ -163,7 +173,7 @@ mac 自带的php版本比较新，是7+； 与我的项目不兼容， 故需要
 修改  .bash_profile 增加一行  
   export PATH=/usr/local/php5/bin:/usr/local/php5/sbin:$PATH;
 
-> source .bash_profile
+>source .bash_profile
 
 ### 验证
 
