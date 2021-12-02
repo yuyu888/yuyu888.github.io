@@ -1,7 +1,7 @@
 ---
 layout: mypost
 title: ElementUI表格前端搜索
-categories: [VUE ElementUI]
+categories: [VUE, ElementUI]
 ---
 
 ## 需求描述
