@@ -16,15 +16,27 @@ categories: [VUE, ElementUI]
         TableRowStyle ({ row, rowIndex }) {
           // 注意，这里返回的是一个对象
           let rowBackground = {}
-          if (this.beSearchName !== '' && row.cusername.includes(this.beSearchName)) {
+          if (this.beSearchName !== '' && row.name.includes(this.beSearchName)) {
             rowBackground.background = '#F3E7A5'
-            this.tableScrollMove('userList', rowIndex)
+            this.tableScrollMove('cityList', rowIndex)
             return rowBackground
           }
-        },
+        }
 ````
 
 ### 将查找到的行滚动居中
+
+具体实现
+````
+        tableScrollMove (refName, index = 0) {
+          if (!refName || !this.$refs[refName]) return// 不存在表格的ref vm 则返回
+          let vmEl = this.$refs[refName].$el
+          if (!vmEl) return
+          console.log(vmEl.getElementsByTagName('tr')[index + 1])
+          vmEl.getElementsByTagName('tr')[index + 1].scrollIntoView({block: 'center'})
+        },
+````
+
 之前尝试过以下方式， 实际效果不理想
 ````
 const targetTop = vmEl.querySelectorAll('.el-table__body tr')[index].getBoundingClientRect().top
@@ -43,29 +55,25 @@ scrollParent.scrollTop = targetTop - containerTop
 ````
 <template>
 <div>
-  <el-input v-model="beSearchName" style="margin-bottom: 10px;" placeholder="输入用户名"></el-input>
+  <el-input v-model="beSearchName" style="margin-bottom: 10px;" placeholder="输入城市名"></el-input>
   <el-table
-    ref="userList"
+    ref="cityList"
     :row-style="TableRowStyle"
     height="500"
-    :data="userList">
+    :data="cityList">
     <el-table-column
-      prop="cusername"
-      label="姓名">
+      prop="code"
+      label="代码">
     </el-table-column>
     <el-table-column
-      prop="username"
-      label="Username">
-    </el-table-column>
-    <el-table-column
-      prop="department_name"
-      label="部门">
+      prop="name"
+      label="城市名">
     </el-table-column>
     <el-table-column
       prop="operate"
       label="操作">
       <template slot-scope="scope">
-        <el-button type="primary" size="mini" @click="deleteUser(scope.row.unique_id)">删除</el-button>
+        <el-button type="primary" size="mini" @click="deleteUser(scope.row.code)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -77,13 +85,34 @@ scrollParent.scrollTop = targetTop - containerTop
       name: 'table-search',
       data () {
         return {
-          userList: [],
+          cityList: [],
           beSearchName: ''
         }
       },
       created () {
         this.beSearchName = ''
-        this.userList = [{'department_name': 'Fishbowl研发组', 'cusername': '张洪波', 'unique_id': 'C100036', 'username': 'jacob.zhang'}, {'department_name': 'Fishbowl后端研发小组', 'cusername': '陈奎', 'unique_id': 'C100132', 'username': 'kui.chen'}, {'department_name': 'Fishbowl项目组', 'cusername': '陈俊洋', 'unique_id': 'C110186', 'username': 'jackie.chen'}, {'department_name': 'Fishbowl美术组', 'cusername': '张旖旎', 'unique_id': 'C120419', 'username': 'yini.zhang'}, {'department_name': 'Fishbowl前端研发小组', 'cusername': '张冰炎', 'unique_id': 'C120635', 'username': 'bingyan.zhang'}, {'department_name': 'Fishbowl美术组', 'cusername': '李昉', 'unique_id': 'C120647', 'username': 'fang.li'}, {'department_name': 'Ocean', 'cusername': '邹先童', 'unique_id': 'C130810', 'username': 'xiantong.zou'}, {'department_name': 'Fishbowl美术组', 'cusername': '董炽', 'unique_id': 'C130870', 'username': 'chi.dong'}, {'department_name': 'Fishbowl美术组', 'cusername': '樊柯', 'unique_id': 'C130933', 'username': 'ke.fan'}, {'department_name': 'Fishbowl游戏设计组', 'cusername': '刘亚男', 'unique_id': 'C130959', 'username': 'yanan.liu'}, {'department_name': 'Fishbowl测试小组', 'cusername': '王桃', 'unique_id': 'C130987', 'username': 'tao.wang'}, {'department_name': 'Fishbowl游戏设计组', 'cusername': '李博', 'unique_id': 'C130994', 'username': 'bo.li'}, {'department_name': 'Fishbowl美术组', 'cusername': '高若琪', 'unique_id': 'C141090', 'username': 'ruoqi.gao'}, {'department_name': 'Fishbowl游戏设计组', 'cusername': '曹凯', 'unique_id': 'C141106', 'username': 'kai.cao'}, {'department_name': 'Fishbowl美术组', 'cusername': '王佳南', 'unique_id': 'C141156', 'username': 'jianan.wang'}, {'department_name': 'Fishbowl游戏设计组', 'cusername': '李志昭', 'unique_id': 'C151379', 'username': 'zhizhao.li'}, {'department_name': 'Fishbowl前端研发小组', 'cusername': '金永来', 'unique_id': 'C151451', 'username': 'yonglai.jin'}, {'department_name': 'Fishbowl美术组', 'cusername': '马若梅', 'unique_id': 'C151463', 'username': 'ruomei.ma'}, {'department_name': 'Fishbowl游戏设计组', 'cusername': '杨蕾', 'unique_id': 'C151543', 'username': 'leilei.yang'}, {'department_name': 'Fishbowl前端研发小组', 'cusername': '陆冬', 'unique_id': 'C171827', 'username': 'dong.lu'}, {'department_name': 'Fishbowl测试小组', 'cusername': '陈华川', 'unique_id': 'C171853', 'username': 'huachuan.chen'}, {'department_name': 'Fishbowl前端研发小组', 'cusername': '刘世朋', 'unique_id': 'C181909', 'username': 'shipeng.liu'}, {'department_name': 'Fishbowl前端研发小组', 'cusername': '胡志武', 'unique_id': 'C181913', 'username': 'zhiwu.hu'}, {'department_name': 'Fishbowl测试小组', 'cusername': '杨天一', 'unique_id': 'C181967', 'username': 'persona.yang'}, {'department_name': 'Fishbowl项目组', 'cusername': '美花', 'unique_id': 'C182018', 'username': 'hua.mei'}, {'department_name': 'Fishbowl后端研发小组', 'cusername': '罗瑞森', 'unique_id': 'C192135', 'username': 'ruisen.luo'}, {'department_name': 'Fishbowl前端研发小组', 'cusername': '贺逸', 'unique_id': 'C192144', 'username': 'yi.he'}, {'department_name': 'Fishbowl后端研发小组', 'cusername': '封立伟', 'unique_id': 'C192232', 'username': 'liwei.feng'}, {'department_name': 'Fishbowl后端研发小组', 'cusername': '刘方东', 'unique_id': 'C192337', 'username': 'fangdong.liu'}, {'department_name': 'Fishbowl美术组', 'cusername': '李则岳', 'unique_id': 'C192368', 'username': 'zeyue.li'}, {'department_name': 'Fishbowl游戏设计组', 'cusername': '王若琬', 'unique_id': 'C202396', 'username': 'ruowan.wang'}, {'department_name': 'Fishbowl前端研发小组', 'cusername': '李栋凌', 'unique_id': 'C212927', 'username': 'dongling.li'}, {'department_name': 'Fishbowl测试小组', 'cusername': '郭轩', 'unique_id': 'C213006', 'username': 'xuan01.guo'}, {'department_name': 'Fishbowl游戏设计组', 'cusername': '吴征', 'unique_id': 'C213043', 'username': 'zheng.wu'}, {'department_name': 'Fishbowl测试小组', 'cusername': '杨昊', 'unique_id': 'C213074', 'username': 'hao.yang'}]
+        this.cityList = [
+          { 'code': '510104', 'name': '锦江区' },
+          { 'code': '510105', 'name': '青羊区' },
+          { 'code': '510106', 'name': '金牛区' },
+          { 'code': '510107', 'name': '武侯区' },
+          { 'code': '510108', 'name': '成华区' },
+          { 'code': '510112', 'name': '龙泉驿区' },
+          { 'code': '510113', 'name': '青白江区' },
+          { 'code': '510114', 'name': '新都区' },
+          { 'code': '510115', 'name': '温江区' },
+          { 'code': '510116', 'name': '双流区' },
+          { 'code': '510117', 'name': '郫都区' },
+          { 'code': '510121', 'name': '金堂县' },
+          { 'code': '510129', 'name': '大邑县' },
+          { 'code': '510131', 'name': '蒲江县' },
+          { 'code': '510132', 'name': '新津县' },
+          { 'code': '510181', 'name': '都江堰市' },
+          { 'code': '510182', 'name': '彭州市' },
+          { 'code': '510183', 'name': '邛崃市' },
+          { 'code': '510184', 'name': '崇州市' },
+          { 'code': '510185', 'name': '简阳市' }
+        ]
       },
       methods: {
         deleteUser (uniqueId) {
@@ -91,9 +120,9 @@ scrollParent.scrollTop = targetTop - containerTop
           // this.$emit('listenUserListChange', this.userList)
         },
         removeUserListByValue (val) {
-          for (let i = 0; i < this.userList.length; i++) {
-            if (this.userList[i].unique_id === val) {
-              this.userList.splice(i, 1)
+          for (let i = 0; i < this.cityList.length; i++) {
+            if (this.cityList[i].code === val) {
+              this.cityList.splice(i, 1)
               break
             }
           }
@@ -108,9 +137,9 @@ scrollParent.scrollTop = targetTop - containerTop
         TableRowStyle ({ row, rowIndex }) {
           // 注意，这里返回的是一个对象
           let rowBackground = {}
-          if (this.beSearchName !== '' && row.cusername.includes(this.beSearchName)) {
+          if (this.beSearchName !== '' && row.name.includes(this.beSearchName)) {
             rowBackground.background = '#F3E7A5'
-            this.tableScrollMove('userList', rowIndex)
+            this.tableScrollMove('cityList', rowIndex)
             return rowBackground
           }
         }
@@ -142,6 +171,7 @@ scrollParent.scrollTop = targetTop - containerTop
 <style scoped>
 
 </style>
+
 
 ````
 
