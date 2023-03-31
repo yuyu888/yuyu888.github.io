@@ -1,7 +1,7 @@
 ---
 layout: mypost
-title: Vue 自定义组件使用v-model
-categories: [JAVA]
+title: Vue自定义组件使用v-model
+categories: [VUE]
 ---
 
 ## v-model基本概念
