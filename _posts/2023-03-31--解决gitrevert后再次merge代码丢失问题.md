@@ -12,8 +12,8 @@ categories: [GIT]
 
 1、从master上创建个新分支B;   
 2、进入本项目目录， 把本分支A代码cp一份，创建新的目录命名为 A_bak, 删除 .git 文件；   
-3、再把git checkout B 切换分支到B分支  
-4、然后把 A_bak目录下的文件copy 复制到当前项目目录
+3、再git checkout B 切换分支到B分支  
+4、然后把 A_bak目录下的文件copy 复制到当前项目目录  
 5、commit 提交， 然后把 B 分支提交合并到master
 
 ## git 命令法
