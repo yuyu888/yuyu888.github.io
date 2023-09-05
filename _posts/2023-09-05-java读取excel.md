@@ -30,9 +30,9 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
         Sheet sheet = workbook.getSheet("Sheet1");
 
         // 循环获取每一行数据 因为默认第一行为标题行，我们可以从 1 开始循环，如果没有标题行，i从 0 开始
-        // sheet.getRows() 获取总行数
+        // sheet.getLastRowNum() 获取总行数
         for (int i = 0; i < sheet.getLastRowNum()+1; i++) {
-            // 获取第一列的第 i 行信息 sheet.getCell(列，行)，下标从0开始
+            // 获取第 i 行的第0列信息
             String content1 = sheet.getRow(i).getCell(0).toString();
             log.info("==============================");
             log.info(content1);
