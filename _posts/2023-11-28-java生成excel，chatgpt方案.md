@@ -5,7 +5,7 @@ categories: [JAVA]
 ---
 
 
-问：用java 实现一个生成excel的程序，excel的头包含姓名，年龄，成绩，其中成绩包含子标题语文， 数学  
+### 问：用java 实现一个生成excel的程序，excel的头包含姓名，年龄，成绩，其中成绩包含子标题语文， 数学  
 
 
 要使用Java来生成Excel文件，你可以使用Apache POI库，它是一个用于读取和写入微软Office文件的强大工具，包括Excel。
