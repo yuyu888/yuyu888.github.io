@@ -1,6 +1,6 @@
 ---
 layout: mypost
-title: java 生成excel，chatgpt方案
+title: java生成excel，chatgpt方案
 categories: [JAVA]
 ---
 
