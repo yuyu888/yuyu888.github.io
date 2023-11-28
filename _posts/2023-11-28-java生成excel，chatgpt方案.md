@@ -14,7 +14,7 @@ categories: [JAVA]
 
 首先，需要在你的项目中引入Apache POI库。如果你的项目是Maven项目，你可以在`pom.xml`文件中添加以下依赖：
 
-```xml
+````xml
 <‌dependencies>
     <‌dependency>
         <‌groupId>org.apache.poi<‌/groupId>
@@ -27,11 +27,11 @@ categories: [JAVA]
         <‌version>5.0.0<‌/version>
     <‌/dependency>
 <‌/dependencies>
-```
+````
 
 然后，你可以使用以下代码来创建一个Excel文件：
 
-```java
+````java
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -86,7 +86,7 @@ public class ExcelCreator {
         }
     }
 }
-```
+````
 
 这个程序首先创建了一个工作簿和一个工作表，然后在工作表中创建了两行，分别用于存储头部和子标题。然后，它在工作表中创建了一行用于存储数据。你可以根据你的需要添加更多的数据行。最后，它将工作簿保存到一个文件中，并关闭了工作簿。
 
