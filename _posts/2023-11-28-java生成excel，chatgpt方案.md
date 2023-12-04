@@ -5,22 +5,22 @@ categories: [JAVA]
 ---
 
 
-### 问：用java 实现一个生成excel的程序，excel的头包含姓名，年龄，成绩，其中成绩包含子标题语文， 数学  
+### 问：用java 实现一个生成excel的程序，excel的头包含姓名，年龄，成绩，其中成绩包含子标题语文， 数学，其中成绩需要合并列，姓名，年龄 需要合并行；填充一些测试数据后， 并给出展示效果 
 
 
-要使用Java来生成Excel文件，你可以使用Apache POI库，它是一个用于读取和写入微软Office文件的强大工具，包括Excel。
+我们可以使用 Apache POI 库来创建和操作 Excel 文件。以下是一个使用 Apache POI 创建 Excel 文件的示例，根据您的要求，我们在表头中添加了“姓名”，“年龄”和“成绩”，其中“成绩”下有子标题“语文”和“数学”。并且合并了姓名和年龄的行，以及成绩的列。
 
-以下是一个简单的示例，使用Apache POI创建一个Excel文件，包含姓名、年龄和成绩（其中成绩又包含语文和数学）：
-
-首先，需要在你的项目中引入Apache POI库。如果你的项目是Maven项目，你可以在`pom.xml`文件中添加以下依赖：
+首先，确保您的项目已经添加了 Apache POI 的依赖。如果您正在使用 Maven，可以在 pom.xml 文件中添加以下依赖：
 
 ````xml
 <‌dependencies>
+    <‌!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
     <‌dependency>
         <‌groupId>org.apache.poi<‌/groupId>
         <‌artifactId>poi<‌/artifactId>
         <‌version>5.0.0<‌/version>
     <‌/dependency>
+    <‌!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
     <‌dependency>
         <‌groupId>org.apache.poi<‌/groupId>
         <‌artifactId>poi-ooxml<‌/artifactId>
@@ -29,65 +29,59 @@ categories: [JAVA]
 <‌/dependencies>
 ````
 
-然后，你可以使用以下代码来创建一个Excel文件：
+然后，我们来创建一个 Java 类来生成 Excel 文件：
 
 ````java
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ExcelCreator {
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws IOException {
+        // 创建 Workbook 和 Sheet
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Student Data");
+        Sheet sheet = workbook.createSheet("学生成绩表");
 
-        // 创建头部
-        Row headerRow = sheet.createRow(0);
-        Cell cell = headerRow.createCell(0);
-        cell.setCellValue("姓名");
-        cell = headerRow.createCell(1);
-        cell.setCellValue("年龄");
-        cell = headerRow.createCell(2);
-        cell.setCellValue("成绩");
+        // 创建标题行
+        Row titleRow = sheet.createRow(0);
+        titleRow.createCell(0).setCellValue("姓名");
+        titleRow.createCell(1).setCellValue("年龄");
+        titleRow.createCell(2).setCellValue("成绩");
 
-        // 创建子标题
-        Row subHeaderRow = sheet.createRow(1);
-        cell = subHeaderRow.createCell(2);
-        cell.setCellValue("语文");
-        cell = subHeaderRow.createCell(3);
-        cell.setCellValue("数学");
+        // 创建子标题行
+        Row subTitleRow = sheet.createRow(1);
+        subTitleRow.createCell(2).setCellValue("语文");
+        subTitleRow.createCell(3).setCellValue("数学");
 
-        // 在这里添加你的数据
-        // 例如：
-        Row dataRow = sheet.createRow(2);
-        cell = dataRow.createCell(0);
-        cell.setCellValue("张三");
-        cell = dataRow.createCell(1);
-        cell.setCellValue(18);
-        cell = dataRow.createCell(2);
-        cell.setCellValue(80);
-        cell = dataRow.createCell(3);
-        cell.setCellValue(90);
+        // 合并“姓名”和“年龄”的行
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 0)); // 合并单元格，参数分别为：first row, last row, first column, last column
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 1, 1));
+
+        // 合并“成绩”的列
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 2, 3));
+
+        // 填充一些测试数据
+        for (int i = 2; i <‌ 10; i++) {
+            Row row = sheet.createRow(i);
+            row.createCell(0).setCellValue("学生" + i);
+            row.createCell(1).setCellValue(10 + i);
+            row.createCell(2).setCellValue(85 + i);
+            row.createCell(3).setCellValue(90 + i);
+        }
 
         // 保存到文件
-        try (FileOutputStream out = new FileOutputStream("student_data.xlsx")) {
-            workbook.write(out);
-        } catch (IOException e) {
-            e.printStackTrace();
+        try (FileOutputStream fileOut = new FileOutputStream("学生成绩表.xlsx")) {
+            workbook.write(fileOut);
         }
-
-        // 记得关闭workbook
-        try {
-            workbook.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        workbook.close();
     }
 }
 ````
 
-这个程序首先创建了一个工作簿和一个工作表，然后在工作表中创建了两行，分别用于存储头部和子标题。然后，它在工作表中创建了一行用于存储数据。你可以根据你的需要添加更多的数据行。最后，它将工作簿保存到一个文件中，并关闭了工作簿。
+这个程序将生成一个名为 "学生成绩表.xlsx" 的 Excel 文件，文件中将包含一个表格，表头是“姓名”，“年龄”和“成绩”，其中“成绩”下有子标题“语文”和“数学”。并且合并了姓名和年龄的行，以及成绩的列。
 
-注意，这只是一个基础示例，你可能需要根据你的具体需求来修改和扩展这个程序。例如，你可能需要设置单元格的样式，或者需要从数据库中读取数据来填充工作表。
+请注意，这只是一个基础示例，您可能需要根据你的实际情况对其进行修改和扩展。
