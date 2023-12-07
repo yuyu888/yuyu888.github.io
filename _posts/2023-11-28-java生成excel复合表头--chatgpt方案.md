@@ -1,7 +1,7 @@
 ---
 layout: mypost
-title: java生成excel，chatgpt方案
-categories: [JAVA]
+title: java生成excel复合表头--ChatGPT方案
+categories: [JAVA, ChatGPT]
 ---
 
 
