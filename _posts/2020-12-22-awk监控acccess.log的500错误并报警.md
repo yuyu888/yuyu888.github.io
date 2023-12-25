@@ -34,3 +34,14 @@ awk  -v prenum="$num" 'NR>prenum{if($12=="-"&&$13==500){print NR;print $0;system
 ````
 
 以上只是示例，在发送报警的时候需要考虑报警频率
+
+
+再附一段在 spring.log 中查找exception的方法， 三条命令效果一样 
+
+ ````
+awk -v num=0 '{if($0~"exception"){num=NR+20}if(NR<num){print $0}}' spring.log
+
+grep -A 20 'exception' spring.log
+
+awk '/exception/{x=1}x{print; if(++x>21) x=0}' spring.log
+ ````
