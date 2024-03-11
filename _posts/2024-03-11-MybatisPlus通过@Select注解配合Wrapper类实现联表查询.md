@@ -1,6 +1,6 @@
 ---
 layout: mypost
-title: MybatisPlus通过@Select注解配合Wrapper类实现查询
+title: MybatisPlus通过@Select注解配合Wrapper类实现联表查询
 categories: [JAVA]
 ---
 
