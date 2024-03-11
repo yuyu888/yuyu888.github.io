@@ -354,3 +354,20 @@ public class ExcelCreator {
 }
 
 ````
+
+ExcelTitleVo  
+````
+@Data
+public class ExcelTitleVo {
+    private String title;
+    private List<ExcelTitleVo> children;
+    private Integer  bottomChildrenCount;  // 子类别宽度
+    private Integer layers; // 子类别层数
+    private Integer numberOfBrothers; // 兄弟节点数量
+
+    public ExcelTitleVo(String title, List<ExcelTitleVo> children) {
+        this.title = title;
+        this.children = children;
+    }
+}
+````
