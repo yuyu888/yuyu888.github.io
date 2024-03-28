@@ -174,6 +174,8 @@ https://repo1.maven.org/maven2/org/apache/flink/
 
 ## 参数说明
 
+记录下有空详细研究
+
 ### MySQL CDC 源表参数
 
 | 参数 | 是否必填 | 默认值 | 数据类型 | 描述 |
@@ -213,7 +215,6 @@ https://repo1.maven.org/maven2/org/apache/flink/
 
 ### 源表with下的属性
 
-记录下有空详细研究
 
 ````
 chunk-key.even-distribution.factor.lower-bound：块键（Chunk Key）的均匀分布因子下限。
