@@ -8,7 +8,7 @@ categories: [FlinkCDC, JAVA]
 网上有很多介绍，就不搬运了，看[这篇](https://devpress.csdn.net/big-data/6475f5d4ed6c8c2acf6a713a.html){:target="_blank"}就够了
 
 ## 前述
-我们经常有些数据同步需求，比如一个订单系统，我们做了分表处理，分为order1， order2，.... order(n)， C端使用没啥问题， 但是在后台，在做查询的时候希望能通过一定条件查询到所有数据， 如果有一个汇总表， 拿将是一个非常愉快的事情；当然，实际场景中也许就不用mysql这种方案了，这里只是用一个简单的例子，来介绍下flink cdc的使用
+有一个后台系统，需要复杂的查询， 跨越了两个服务（相关表落在两个不同的库里），查询条件，也分别作用于两个系统的关联表；通常做法是，在系统A中先按部分条件查询数据id集合； 出个接口给到另一个系统B， 然后再在系统B中按条件查询数据加一个where条件 relation_id in 系统A给出的id结果集； 如果数据量少，还可以用用，数据量多了，要么性能跟不上，要么直接超过最大sql长度限制了， 这个时候如果能方便的实时的把系统A的数据同步一份到系统B中，做个联表查询问题就解决了；虽然杀鸡用了牛刀，但是我们可以以此为契机， 了解下 Flink CDC 
 
 ## Flink 搭建
 参考[官方教程](https://nightlies.apache.org/flink/flink-cdc-docs-master/zh/docs/get-started/quickstart/mysql-to-doris/){:target="_blank"}
