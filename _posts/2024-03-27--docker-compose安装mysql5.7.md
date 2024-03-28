@@ -126,6 +126,7 @@ socket=/var/run/mysqld/mysqld.sock
 
  完美
 
+
  ## 临时解决
 
  把容器打包成新的镜像： docker commit 0668eec594d8 local-mysql5.7
