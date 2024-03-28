@@ -1,6 +1,6 @@
 ---
 layout: mypost
-title: idea破解
+title: docker-compose安装mysql5.7 
 categories: [DOCKER, Mysql]
 ---
 
