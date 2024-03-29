@@ -179,7 +179,7 @@ https://repo1.maven.org/maven2/org/apache/flink/
 我们再创建一个表 mytest.logtest2，结构与 mytest.logtest1相同； 期望把  mytest.logtest1， mytest.logtest2的数据都同步到 test.logtest  中   
 那么我们只需要改下这里就行了  
 
-![flinksql](image4.png)
+![flinksql](image4-2.png)
 
 
 把这里设置为 'table-name' = 'logtest[1-9]' 就可以实现logtest1， logtest2... 等多表的数据同步， 表名支持正则表达式
