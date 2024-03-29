@@ -93,6 +93,9 @@ CREATE TABLE `logtest1`(
  'table-name' = 'logtest1'
 );
 
+
+# 这里如果设置为 'table-name' = 'logtest[1-9]' 则可以实现logtest1， logtest2... 等多表的数据同步
+
 CREATE TABLE `logtest`(
   `id` INT NOT NULL,
   `uid` INT NOT NULL,
