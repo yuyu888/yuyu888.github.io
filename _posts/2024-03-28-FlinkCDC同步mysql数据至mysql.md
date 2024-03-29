@@ -145,9 +145,9 @@ upsert-kafka
 > 缺少flink与jdbc的连接适配器  
 > 缺少 mysql 的 jdbc 驱动包  
 
-请检查${FLINK_HOME}/lib下是否包含如下名称的jar (仅举例,忽略版本号)：
+检查${FLINK_HOME}/lib下是否包含如下名称的jar (仅举例,忽略版本号)：
 
-> flink-connector-jdbc-3.1.2-1.18.jar
+> flink-connector-jdbc-3.1.2-1.18.jar  
 > mysql-connector-java-8.0.27.jar
 
 
