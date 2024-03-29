@@ -188,7 +188,7 @@ https://repo1.maven.org/maven2/org/apache/flink/
 
 在flinkCDC源数据配置，可以通过debezium.skipped.operations参数控制，配置需要过滤的 oplog 操作。操作包括 c 表示插入，u 表示更新，d 表示删除。默认情况下，不跳过任何操作，以逗号分隔。配置多个操作，需要英文逗号分隔。
 
-官方说明：[Debezium connector for MySQL :: Debezium Documentation]（https://debezium.io/documentation/reference/stable/connectors/mysql.html）
+官方说明：[Debezium connector for MySQL :: Debezium Documentation](https://debezium.io/documentation/reference/stable/connectors/mysql.html){:target="_blank"}  
 
 ![Debezium connector for MySQL](image5.png)
 
