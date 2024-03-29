@@ -93,9 +93,6 @@ CREATE TABLE `logtest1`(
  'table-name' = 'logtest1'
 );
 
-
-# 这里如果设置为 'table-name' = 'logtest[1-9]' 则可以实现logtest1， logtest2... 等多表的数据同步
-
 CREATE TABLE `logtest`(
   `id` INT NOT NULL,
   `uid` INT NOT NULL,
@@ -173,6 +170,27 @@ https://repo1.maven.org/maven2/org/apache/flink/
 在 mytest.logtest1 插入数据或者更新数据，在test.logtest中观察，数据精准同步
 
 至此，算简单入门了，后面的路还有很远很远
+
+
+## 使用技巧
+
+### 多表汇总
+有时候我们使用了分表，但是后台查询的时候希望查询到所有符合条件的数据，以本案为例：  
+我们再创建一个表 mytest.logtest2，结构与 mytest.logtest1相同； 期望把  mytest.logtest1， mytest.logtest2的数据都同步到 test.logtest  中   
+那么我们只需要改下这里就行了  
+
+![flinksql](image4.png)
+
+
+把这里设置为 'table-name' = 'logtest[1-9]' 就可以实现logtest1， logtest2... 等多表的数据同步， 表名支持正则表达式
+
+### 选择性处理新增、更新、删除数据
+
+在flinkCDC源数据配置，可以通过debezium.skipped.operations参数控制，配置需要过滤的 oplog 操作。操作包括 c 表示插入，u 表示更新，d 表示删除。默认情况下，不跳过任何操作，以逗号分隔。配置多个操作，需要英文逗号分隔。
+
+官方说明：[Debezium connector for MySQL :: Debezium Documentation]（https://debezium.io/documentation/reference/stable/connectors/mysql.html）
+
+![Debezium connector for MySQL](image5.png)
 
 
 ## 参数说明
