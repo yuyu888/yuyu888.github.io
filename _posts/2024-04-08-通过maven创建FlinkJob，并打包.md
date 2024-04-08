@@ -108,9 +108,9 @@ categories: [FlinkCDC, JAVA]
 
 
  ````
-
- ### FlinkMysqlToMysql
-
+ 
+### FlinkMysqlToMysql  
+ 
  ````java
 import libs.ResetValueFunction;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
@@ -241,11 +241,11 @@ public class ResetValueFunction extends ScalarFunction {
 
 上传成功后可以看到刚才上传的jar 包
 
-![joblist](image5.png)
+![joblist](image6.png)
 
 
 点击改jar 后， 填入 entry class： FlinkMysqlToMysql 点提交
-![submit job](image6.png)
+![submit job](image5.png)
 
 之后看到job 成功运行！
 
