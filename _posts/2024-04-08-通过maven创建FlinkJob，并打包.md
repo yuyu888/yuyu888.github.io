@@ -252,6 +252,6 @@ public class ResetValueFunction extends ScalarFunction {
 ![running job](image7.png)
 
 
-经过测试 插入/修改 mytest.logtest1； 成功同步到 test.logtest1；
+经过测试 插入/修改 mytest.logtest1； 成功同步到 test.logtest；
 
 大功告成！
