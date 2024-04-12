@@ -95,22 +95,16 @@ public class MyRedisMapper implements RedisMapper<UserVo> {
 
     @Override
     //getCommandDescription()方法主要是返回当前Redis操作命令的描述，
-    //我们当前想要做的操作是想要把当前每一个用户的访问事件这个数据写入到Redis保存
     public RedisCommandDescription getCommandDescription() {
-        //希望把所有用户的访问信息都保存在一张表里面，接下来要操作的是一张hash表
-        //第一个参数是像Redis里面一张hash表去写入的命令，第二个参数是表的名称
         return new RedisCommandDescription(RedisCommand.HSET,"userMap");
     }
 
     @Override
-    //针对每一个用户去写入，相当于同一个用户的数据要不停的更新
-    //当前的key是user
     public String getKeyFromData(UserVo user) {
         return user.getUniqueId();
     }
 
     @Override
-    //还需要定义当前的data是什么
     public String getValueFromData(UserVo user) {
         return user.getUsername();
 
@@ -326,3 +320,6 @@ public class RedisCustomSink extends RichSinkFunction<UserVo> {
         jedis.hset(keyPrefix + vo.getUniqueId(), "username", vo.getUsername());
     }));
 ````
+
+
+
