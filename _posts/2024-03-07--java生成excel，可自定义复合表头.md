@@ -4,7 +4,39 @@ title: java生成excel，可以自定义复合表头
 categories: [JAVA]
 ---
 
-话不多说， 直接上代码
+## 功能概述
+
+1、节省资源， 减少内存消耗
+2、提供基础的样式处理
+3、实现生成自定义无限层复合表头
+
+## 相关知识点
+
+### XSSFWorkbook 和 SXSSFWorkbook 的区别
+
+Apache POI 提供了两种不同的类来处理 XLSX 文件：XSSFWorkbook 和 SXSSFWorkbook。这两种工作簿都可以用来创建、读取和编辑 XLSX 文件，但它们在内存使用和性能方面有一些重要的区别。
+
+以下是 XSSFWorkbook 和 SXSSFWorkbook 之间的主要区别：
+- 内存使用：XSSFWorkbook 是一个完全内存驻留的模型，这意味着当你处理一个大的 XLSX 文件时，它会消耗相当多的内存。在处理大量数据或大型工作簿时，可能会导致 OutOfMemoryError。相比之下，SXSSFWorkbook 是一个内存友好型的模型，它使用了一种叫做 "sliding window" 的机制，这使得它可以在处理大型工作簿时显著节省内存。
+- 性能：由于 XSSFWorkbook 在内存中保存了整个工作簿，所以从性能的角度来看，对于小型或中型的工作簿，XSSFWorkbook 的读写性能可能会比 SXSSFWorkbook 更好。然而，对于大型工作簿，由于 SXSSFWorkbook 的内存优化，它的性能通常会优于 XSSFWorkbook。
+- 功能：XSSFWorkbook 提供了对 XLSX 文件的全面支持，包括读取、写入、编辑等操作。相比之下，SXSSFWorkbook 仅支持写入操作，不支持读取或修改现有的工作簿。
+总的来说，如果你需要处理的 XLSX 文件较小，并且需要对其进行复杂的操作（如读取、修改等），那么 XSSFWorkbook 可能是更好的选择。然而，如果你需要处理大型工作簿，并且只需要写入操作，那么 SXSSFWorkbook 就是一个更好的选择，因为它可以显著减少内存使用并提高性能。
+
+OutOfMemoryError
+
+![OutOfMemoryError](image.png)
+
+### SXSSFWorkbook 介绍
+
+SXSSFWorkbook 是 Apache POI 库中的一个类，该类对于处理大型 Excel 文件（例如 .xlsx 文件）非常有用。它实现了一种名为流式写入的技术，可以显著减少在处理大型数据集时的内存使用。
+
+以下是 SXSSFWorkbook 节省内存的原理：
+1. 数据流式写入：在处理大型数据集时，常规的工作簿（如 XSSFWorkbook）会将所有数据保留在内存中，这可能导致大量内存使用。而 SXSSFWorkbook 采用流式写入技术，只保持一部分数据在内存中。当数据写入磁盘后，这部分内存就可以释放，以便存储新的数据。
+2. 临时文件：为了支持流式写入，SXSSFWorkbook 创建临时文件存储那些已经写入但尚未持久化的数据。这些临时文件在调用 dispose() 方法后会被删除。
+3. 可配置的滑动窗口：SXSSFWorkbook 允许你配置在内存中保持的行数。这个行数称为 windowSize，可以根据可用内存进行设置。一旦写入的行数超过这个滑动窗口，最早写入的行将被推出内存并写入临时文件。这个特性使得 SXSSFWorkbook 能够处理大于可用内存的数据集。
+总的来说，SXSSFWorkbook 通过流式写入和临时文件存储实现了内存的有效管理，并通过可配置的滑动窗口提供了灵活的内存使用控制，从而在处理大型数据集时能够显著节省内存。
+
+## 代码实现
 
 ````java
 import lombok.extern.slf4j.Slf4j;
