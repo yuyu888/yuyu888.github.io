@@ -12,7 +12,7 @@ categories: [FlinkCDC, Doris]
 
 [看这里](https://yuyu888.github.io/posts/2024/03/28/FlinkCDC%E5%90%8C%E6%AD%A5mysql%E6%95%B0%E6%8D%AE%E8%87%B3mysql.html){:target="_blank"} 里的 “Flink 搭建”
 
-下载[Apache Doris pipeline connector 3.0.0](https://github.com/apache/flink-cdc/releases/tag/release-3.0.0) {:target="_blank"}  的jra包，并放入 放入 flink-1.19.0 的安装目录下的lib 下
+下载[Apache Doris pipeline connector 3.0.0](https://github.com/apache/flink-cdc/releases/tag/release-3.0.0){:target="_blank"}  的jra包，并放入 放入 flink-1.19.0 的安装目录下的lib 下
 
 ## Doris 安装
 
@@ -190,5 +190,6 @@ min_dwell_time 取了两条记录中最小的值
 
 注意，如果变更mysql里的值，cost会被累加，所以在创建source（CREATE TABLE `doris_example_tbl`....）的时候， 需要加一个参数 debezium.skipped.operations=u,d 
 
-如果需要监听更新和删除的操作并更新结果，需要使用flink DataStreamApi 监听前后变化，计算出新的数据插入到doris 
+如果需要监听更新和删除的操作并更新结果，需要使用flink DataStreamApi 监听前后变化，计算出新的数据插入到doris
+ 
 
