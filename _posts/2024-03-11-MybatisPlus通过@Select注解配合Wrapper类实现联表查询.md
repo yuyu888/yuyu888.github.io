@@ -37,3 +37,41 @@ categories: [JAVA]
 
 其中  Constants.WRAPPER = "ew"  
 所以 @Param(Constants.WRAPPER)  写成 @Param("ew") 也是可以的
+
+注意 queryWrapper里如果使用了entity实例，entity的设置不起作用， 比如下面的例子中的        entity.setStatus(1); 是不会代入where 条件中的
+
+````java
+        HecFbiExpenseExpenseDetailEntity entity = new HecFbiExpenseExpenseDetailEntity();
+        entity.setStatus(1);
+        QueryWrapper<HecFbiExpenseExpenseDetailEntity> queryWrapper = new QueryWrapper(entity);
+````
+
+原因参看：com.baomidou.mybatisplus.core.conditions.Wrapper#getCustomSqlSegment
+````java
+    /**
+     * 获取自定义SQL 简化自定义XML复杂情况
+     * <p>使用方法</p>
+     * <p>`自定义sql` + ${ew.customSqlSegment}</p>
+     * <p>1.逻辑删除需要自己拼接条件 (之前自定义也同样)</p>
+     * <p>2.不支持wrapper中附带实体的情况 (wrapper自带实体会更麻烦)</p>
+     * <p>3.用法 ${ew.customSqlSegment} (不需要where标签包裹,切记!)</p>
+     * <p>4.ew是wrapper定义别名,可自行替换</p>
+     */
+    public String getCustomSqlSegment() {
+        MergeSegments expression = getExpression();
+        if (Objects.nonNull(expression)) {
+            NormalSegmentList normal = expression.getNormal();
+            String sqlSegment = getSqlSegment();
+            if (StringUtils.isNotEmpty(sqlSegment)) {
+                if (normal.isEmpty()) {
+                    return sqlSegment;
+                } else {
+                    return Constants.WHERE + StringPool.SPACE + sqlSegment;
+                }
+            }
+        }
+        return StringPool.EMPTY;
+    }
+
+
+````
