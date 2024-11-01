@@ -1,6 +1,6 @@
 ---
 layout: mypost
-title: Doris（结合flinkcdc）快速上手
+title: percona-toolkit大表操作DDL
 categories: [Mysql]
 ---
 
@@ -163,7 +163,7 @@ t=
 
 ### 使用 pt-online-schema-change
 
-> pt-online-schema-change --host=10.130.130.87 --user=root --password=xxxxxx --alter "MODIFY COLUMN right_name CHAR(60) NOT NULL" D=hec_attendance,t=attendance_20240115 --print --execute --recursion-method=none
+> /usr/bin/pt-online-schema-change --host=10.130.130.87 --user=root --password=xxxxxx --alter "MODIFY COLUMN right_name CHAR(60) NOT NULL" D=hec_attendance,t=attendance_20240115 --print --execute --recursion-method=none
 
 执行完毕，过一会等触发器建立完毕，插入一条数据能执行成功， 等全部执行完毕，数据依然在
 
