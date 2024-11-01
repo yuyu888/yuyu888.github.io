@@ -12,6 +12,10 @@ categories: [Mysql]
 4. 修改大表结构容易导致数据库 CPU、IO 等性能消耗，使 MySQL 服务器性能降低。
 5. 在线修改大表结构容易导致主从延时，从而影响业务读取。
 
+> MySQL 5.6之后支持online DDL之后，可以直接在线修改表结构
+
+
+
 ## Percona-Toolkit
 Percona-Toolkit 源自 Maatkit 和 Aspersa 工具，这两个工具是管理 MySQL 的最有名的工具，但 Maatkit 已经不维护了，全部归并到 Percona-Toolkit。Percona Toolkit 是一组高级的命令行工具，用来管理 MySQL 和系统任务，主要包括以下功能：
 1. 验证主节点和复制数据的一致性
