@@ -113,11 +113,30 @@ mysql在线ddl(加字段、加索引等修改表结构之类的操作）过程�
 ### 使用pt-osc工具修改表结构
   pt-osc工具是PT工具包里面的一种，它的全称是pt-online-schema-change，看这个名字，不难猜出来，它是为了在线修改表结构来才创建出来的，所谓的在线修改表，也就是不影响线上业务从而实现修改表结构的效果。
 
- pt-osc工具的工作原理及步骤 ：
-1. 创建需要执行alter操作的原表的一个临时表，然后在临时表中更改表结构。
-2. 在原表中创建触发器（3个）三个触发器分别对应insert,update,delete操作
-3. 从原表拷贝数据到临时表，拷贝过程中在原表进行的写操作都会更新到新建的临时表。
-4. Rename 原表到old表中，在把临时表Rename为原表，最后将原表删除，将原表上所创建的触发器删除。
+````
+pt-osc工作流程：
+1、检查更改表是否有主键或唯一索引，是否有触发器
+2、检查修改表的表结构，创建一个临时表，在新表上执行ALTER TABLE语句
+3、在源表上创建三个触发器分别对于INSERT UPDATE DELETE操作
+4、从源表拷贝数据到临时表，在拷贝过程中，对源表的更新操作会写入到新建表中
+5、将临时表和源表rename（需要元数据修改锁，需要短时间锁表）
+6、删除源表和触发器，完成表结构的修改。
+
+##=====================================================##
+pt-osc工具限制
+1、源表必须有主键或唯一索引，如果没有工具将停止工作
+2、如果线上的复制环境过滤器操作过于复杂，工具将无法工作
+3、如果开启复制延迟检查，但主从延迟时，工具将暂停数据拷贝工作
+4、如果开启主服务器负载检查，但主服务器负载较高时，工具将暂停操作
+5、当表使用外键时，如果未使用--alter-foreign-keys-method参数，工具将无法执行
+6、只支持Innodb存储引擎表，且要求服务器上有该表1倍以上的空闲空间。
+
+pt-osc之alter语句限制
+1、不需要包含alter table关键字，可以包含多个修改操作，使用逗号分开，如"drop clolumn c1, add column c2 int"
+2、不支持rename语句来对表进行重命名操作
+3、不支持对索引进行重命名操作
+4、如果删除外键，需要对外键名加下划线，如删除外键fk_uid, 修改语句为"DROP FOREIGN KEY _fk_uid"
+````
 
 ## pt-online-schema-change 常用参数
 
@@ -276,3 +295,13 @@ Successfully altered `hec_attendance`.`attendance_20240115`.
 ````
 
 通过日志可以清晰的看到，整个创建新表，创建触发器，同步数据，RENAME TABLE， 删除触发器等一系列操作过程
+
+## 参考资料
+
+https://www.jianshu.com/p/d623835f4ce6 
+https://zhuanlan.zhihu.com/p/700433432  
+https://segmentfault.com/a/1190000008664272  
+https://cloud.tencent.com/developer/article/1068214  
+https://cloud.tencent.com/developer/article/1520624  
+https://cloud.tencent.com/developer/article/2145230  
+https://cloud.tencent.com/developer/article/1717850  
