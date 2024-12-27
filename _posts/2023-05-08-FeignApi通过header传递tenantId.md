@@ -45,3 +45,60 @@ public class FeignConfiguration {
 		String tenantId = request.getHeader("feign_api_tenant_id");
 ````
 
+
+这里是获取client_service_name 的方法以供参考
+````java
+
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+
+@Slf4j
+@Aspect
+@Component
+public class FeignClientInfoAspect {
+    private final HttpServletRequest request;
+
+    public FeignClientInfoAspect(HttpServletRequest request) {
+        this.request = request;
+    }
+
+
+    @Pointcut("within(@org.springframework.web.bind.annotation.RestController *) && @within(requestMapping)")
+    public void restControllerMethods(RequestMapping requestMapping) {}
+
+    @Before("restControllerMethods(requestMapping)")
+    public void before(JoinPoint joinPoint, RequestMapping requestMapping) {
+        // Check if the RequestMapping path starts with "/serviceapi/"
+        String[] paths = requestMapping.value();
+        boolean matches = false;
+        for (String path : paths) {
+            if (path.startsWith("/serviceapi/")) {
+                matches = true;
+                break;
+            }
+        }
+        if (matches) {
+            MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+            Method method = methodSignature.getMethod();
+
+            // Check if the method is annotated with @GetMapping or @PostMapping
+            if (method.isAnnotationPresent(GetMapping.class) || method.isAnnotationPresent(PostMapping.class)) {
+                String clientServiceName = request.getHeader("client_service_name");
+                log.info("本次请求的来源是："+clientServiceName+"； 请求地址为："+String.valueOf(request.getRequestURL()));
+            }
+        }
+    }
+}
+
+````
