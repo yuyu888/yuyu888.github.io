@@ -25,7 +25,7 @@ categories: [JAVA]
                 // 获取当前线程的上下文类加载器
                 // ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
 
-                // 设置当前线程的上下文类加载器为系统类加载器
+                // 设置当前线程的上下文类加载器为加载当前类的类加载器
                 // Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
                 try {
                     HecFbiProvisionAdProvisionEntity entity = hecFbiProvisionAdProvisionService.getById(id);
@@ -154,4 +154,25 @@ CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
           throw  e;
       }
   }, taskExecutor);
+````
+
+
+## 知识点
+
+````md
+在使用 `CompletableFuture.runAsync()` 时，代码会在一个新的线程中运行，而这个线程的上下文类加载器可能与主线程不同。这可能导致一些类在新线程中无法正确加载，尤其是在使用诸如 Spring Boot 这样的框架时。
+
+### 原因分析
+上下文类加载器：
+Java线程有一个上下文类加载器（Context ClassLoader），它用于加载类和资源。默认情况下，`CompletableFuture.runAsync()` 使用的线程池可能会使用与主线程不同的类加载器。
+`ClassLoader.getSystemClassLoader()`：
+`ClassLoader.getSystemClassLoader()` 获取的是系统类加载器。这通常是应用程序类加载器，但在某些环境下（如某些应用服务器或特殊的启动脚本），它可能无法加载应用程序中定义的类或依赖项。
+`getClass().getClassLoader()`：
+`getClass().getClassLoader()` 获取的是加载当前类的类加载器。这通常是应用程序类加载器或其子类加载器，能够正确加载应用程序的所有类和资源。
+### 解决方法的解释
+当你在新线程中设置 `Thread.currentThread().setContextClassLoader(getClass().getClassLoader())`，你确保新线程使用的类加载器与加载当前类的类加载器相同。这保证了所有应用程序的类和资源都可以正常加载，包括通过 Feign 调用的部分。
+之所以 `getClass().getClassLoader()` 能解决问题，是因为它指向的类加载器具有访问应用程序代码和依赖项的权限，而 `ClassLoader.getSystemClassLoader()` 在某些环境下则不具备这种能力。
+### 建议
+
+对于使用多线程的应用程序，特别是涉及到复杂框架（如 Spring）的情况，确保在新线程中设置正确的上下文类加载器是非常重要的。这样可以避免类加载问题，确保所有组件在不同线程中正常工作。
 ````
