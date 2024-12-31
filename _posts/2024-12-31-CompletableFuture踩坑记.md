@@ -67,13 +67,14 @@ categories: [JAVA]
         }
 ````
 
-其中 List<String> errorList = hecFbiProvisionProvisionCommonLogic.checkData(entity); 这个方法里调用了若干feignapi， 运行时会报java.lang.IllegalArgumentException: Could not find class [org.springframework.boot.autoconfigure.condition.OnPropertyCondition] 这个错误，如果不使用CompletableFuture，直接循环执行则不会报错，并且本地运行不报错，一旦放到测试环境就会报错，且部署到开发环境也不会报错；开发环境与测试环境都是用同一个image 使用docker 容器部署， 非常诡异
+其中 List<String> errorList = hecFbiProvisionProvisionCommonLogic.checkData(entity); 这个方法里调用了若干feignapi， 运行时会报java.lang.IllegalArgumentException: Could not find class [org.springframework.boot.autoconfigure.condition.OnPropertyCondition] 这个错误，如果不使用CompletableFuture，直接循环执行则不会报错，并且本地运行不报错，一旦放到测试环境就会报错，且部署到开发环境也不会报错；开发环境与测试环境都是用同一个image 使用docker 容器部署(宿主机不一样)， 非常诡异
 
 ## 问题原因
 
 询问chatgpt 回答是
 
-> 类加载器问题：当你在异步任务中运行代码时，可能使用了不同的类加载器，导致某些类无法找到。特别是在使用框架（如Spring）的情况下，某些类可能在异步执行环境中不可用。
+> 类加载器问题：当你在异步任务中运行代码时，可能使用了不同的类加载器，导致某些类无法找到。特别是在使用框架（如Spring）的情况下，某些类可能在异步执行环境中不可用。  
+>
 > 环境差异：直接执行代码和在异步任务中执行代码，可能会处于不同的Spring上下文或配置环境中。确保异步任务中使用的配置和直接执行时一致。
 
 最终解决办法是，添加如下逻辑， 即代码里被注视掉的部分
@@ -94,7 +95,7 @@ Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
 
 使用 指定线程池 ThreadPoolTaskExecutor
 
-```` java
+````java
 @Configuration
 @EnableAsync
 public class ThreadPoolConfig {
@@ -122,21 +123,23 @@ public class ThreadPoolConfig {
 	}
 }
 
-```` java
+````java
     @Autowired
     @Qualifier("fooThreadPool")
     private ThreadPoolTaskExecutor taskExecutor;
 
 ````
 
-引入taskExecutor， 然后 
+引入taskExecutor， 然后   
+
 ````java
 CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
   // 业务代码
   },taskExecutor);
 ````
 
-实际改造如下
+实际改造如下  
+
 ````java
 
   CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
