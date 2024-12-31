@@ -117,12 +117,12 @@ public class ThreadPoolConfig {
 		return executor;
 	}
 }
+````
 
 ````java
     @Autowired
     @Qualifier("fooThreadPool")
     private ThreadPoolTaskExecutor taskExecutor;
-
 ````
 
 引入taskExecutor， 然后   
