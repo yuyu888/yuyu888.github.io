@@ -20,8 +20,6 @@ categories: [JAVA]
         List<CompletableFuture<Void>> futures = new ArrayList<>();
         List<Map<String, Object>> errorData = Collections.synchronizedList(new ArrayList<>());
         List<HecFbiProvisionAdProvisionEntity> entityList = Collections.synchronizedList(new ArrayList<>());
-        log.info("=============ids================");
-        log.info(String.valueOf(ids));
         for (Integer id : ids) {
             CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
                 // 获取当前线程的上下文类加载器
@@ -31,7 +29,7 @@ categories: [JAVA]
                 // Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
                 try {
                     HecFbiProvisionAdProvisionEntity entity = hecFbiProvisionAdProvisionService.getById(id);
-                    log.info("=============entity================{}",entity);
+
                     List<String> errorList = hecFbiProvisionProvisionCommonLogic.checkData(entity);
                     if (errorList != null && !errorList.isEmpty()) {
                         Map<String, Object> errorInfo = new HashMap<>();
@@ -43,7 +41,6 @@ categories: [JAVA]
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    log.error("HecFbiProvisionOperateLogicImpl::multiSubmit:error333:",e);
                     throw  e;
                 }finally {
                     // Thread.currentThread().setContextClassLoader(originalClassLoader);
@@ -57,11 +54,9 @@ categories: [JAVA]
         try {
             CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).get();
         } catch (InterruptedException e) {
-            log.error("HecFbiProvisionOperateLogicImpl::multiSubmit:error1:",e);
             e.printStackTrace();
             throw new RRException("系统运行错误!!");
         } catch (ExecutionException e) {
-            log.error("HecFbiProvisionOperateLogicImpl::multiSubmit:error2:",e);
             e.printStackTrace();
             throw new RRException("系统运行错误");
         }
@@ -145,7 +140,6 @@ CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
   CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
       try {
           HecFbiProvisionAdProvisionEntity entity = hecFbiProvisionAdProvisionService.getById(id);
-          log.info("=============entity================{}",entity);
           List<String> errorList = hecFbiProvisionProvisionCommonLogic.checkData(entity);
           if (errorList != null && !errorList.isEmpty()) {
               Map<String, Object> errorInfo = new HashMap<>();
@@ -157,7 +151,6 @@ CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
           }
       } catch (Exception e) {
           e.printStackTrace();
-          log.error("HecFbiProvisionOperateLogicImpl::multiSubmit:error333:",e);
           throw  e;
       }
   }, taskExecutor);
