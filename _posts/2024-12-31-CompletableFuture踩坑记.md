@@ -4,7 +4,7 @@ title: CompletableFuture踩坑记
 categories: [JAVA]
 ---
 
-## 前言
+## 背景
 
 有一个业务，需要做一个批量提交，每一行数据都需要检查，由于检查逻辑比较复杂也比较耗时，所以想采用CompletableFuture做任务编排，实现并行处理
 
