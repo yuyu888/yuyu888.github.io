@@ -1,6 +1,6 @@
 ---
 layout: mypost
-title: dockerfile:java环境安装imagemagic
+title: dockerfile:java环境安装ImageMagick
 categories: [DOCKER]
 ---
 
@@ -22,7 +22,7 @@ RUN apk add --no-cache \
     # 安装openjdk21
     openjdk21 \
     # 兼容bash
-    bash gcompat \
+    bash curl gcompat \
     imagemagick \
     imagemagick-dev \
     libheif \
