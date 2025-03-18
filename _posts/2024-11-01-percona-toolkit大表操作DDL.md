@@ -196,7 +196,7 @@ t=
 执行明细：
 ````log
 bash-5.1$ /usr/bin/pt-online-schema-change --host=10.130.130.87 --user=root --password=123456 --alter "MODIFY COLUMN right_name CHAR(60) NOT NULL" D=hec_attendance,t=attendance_20240115 --print --execute --recursion-method=none
-No slaves found.  See --recursion-method if host test.contract11.happyelements.net has slaves.
+No slaves found.  See --recursion-method if host test.contract11.xxxxxx.net has slaves.
 Not checking slave lag because no slaves were found and --check-slave-lag was not specified.
 Operation, tries, wait:
   analyze_table, 10, 1
