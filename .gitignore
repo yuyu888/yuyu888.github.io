@@ -1,1 +1,45 @@
 */.DS_Store,.DS_Store,
+# Eclipse
+.project
+.classpath
+.settings/
+.metadata/
+bin/
+
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
+*.tmp
+
+# NetBeans
+nb-configuration.xml
+
+# Visual Studio Code
+.vscode
+.factorypath
+
+# OSX
+.DS_Store
+
+# Vim
+*.swp
+*.swo
+
+# patch
+*.orig
+*.rej
+
+# node
+package.json
+package-lock.json
+node_modules
+# Maven
+target/
+
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
