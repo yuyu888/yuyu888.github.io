@@ -750,3 +750,52 @@ public class ExcelCreator {
         return contentVo;
     }
 ````
+
+按分页获取数据并写入的例子：
+
+````java
+        List<ExcelTitleVo> titleVoList = getTitleVoList();
+        String fileName = "报价工单列表_" + String.valueOf(System.currentTimeMillis()) + ".xlsx";
+        String filePath = HecFbiArtBussinessConstant.TEMP_DOWNLOAD_FILE_DIR + "/" + fileName;
+        String sheetname = "报价工单列表";
+
+        //新建文档实例
+        SXSSFWorkbook workbook = new SXSSFWorkbook(100);
+        //在文档中添加表单
+        SXSSFSheet sheet = workbook.createSheet(sheetname);
+
+        ExcelCreator excelCreator = new ExcelCreator();
+        Integer beginRowNumber = excelCreator.writeCompositeTitle(workbook, sheet, titleVoList);
+        Integer totalPage = 1;
+        Long pageIndex = 1L;
+        formData.setLimit(500L);
+        while (pageIndex <= totalPage) {
+            formData.setPage(pageIndex);
+            PageUtils page = allPage(formData);
+            List<PriceQuotationWorkOrderVO> voList = (List<PriceQuotationWorkOrderVO>) page.getList();
+            if (voList != null && voList.size() > 0) {
+                ExcelContentVo contentVo = getContentVo(voList);
+                excelCreator.writeCompositeContent(workbook, sheet, contentVo, beginRowNumber);
+                beginRowNumber = contentVo.getEndRowNumber() + 1;
+            }
+            totalPage = page.getTotalPage();
+            pageIndex++;
+        }
+
+        try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+            workbook.write(fileOut);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw new RRException("文件不存在：" + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RRException("IO错误, 文件生成失败：" + e.getMessage());
+        } finally {
+            try {
+                workbook.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RRException("workbook不能成功close：" + e.getMessage());
+            }
+        }
+````
