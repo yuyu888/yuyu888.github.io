@@ -135,7 +135,15 @@ socket=/var/run/mysqld/mysqld.sock
 
  以后需要该配置， 就先进该容器，改完再打包新的镜像
 
- 有空了再重新研究， 怎么能把配置映射正确， 应该是一个很傻逼的问题，但是今天不想弄了
+
+## 问题解决
+
+/usr/local/docker-mysql5.7/config/my.cnf:/etc/mysql/conf.d
+
+改成：
+/usr/local/docker-mysql5.7/config:/etc/mysql/conf.d
+
+太傻B了， 灯下黑， 当时硬是没看出来
 
 ## mysql 配置详解
 
